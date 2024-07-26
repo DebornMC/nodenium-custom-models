@@ -69,7 +69,10 @@
         {"predicate": {"custom_model_data":112}, "model": "item/custom/model/spinning_dave_statue_1"},
         {"predicate": {"custom_model_data":113}, "model": "item/custom/model/spinning_dave_statue_2"},
         
-
+        {"predicate": {"custom_model_data":502}, "model": "item/custom/model/mace_trophy"},
+        {"predicate": {"custom_model_data":503}, "model": "item/custom/model/survivor_trophy"},
+        {"predicate": {"custom_model_data":504}, "model": "item/custom/model/portl_trophy"},
+        {"predicate": {"custom_model_data":505}, "model": "item/custom/model/trophtree"},
         {"predicate": {"custom_model_data":506}, "model": "item/custom/model/bubblegum_trophy"},
         {"predicate": {"custom_model_data":507}, "model": "item/custom/model/easter_trophy"},
         {"predicate": {"custom_model_data":508}, "model": "item/custom/model/peter_plush"}
