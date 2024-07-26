@@ -1,0 +1,11 @@
+{
+  "textures": {
+    "layer0": "item/netherite_shovel"
+  },
+  "parent": "item/handheld",
+ 
+  "overrides": [
+    {"predicate": {"custom_model_data": 3},"model": "item/custom/dungeons_diamond_shovel"}
+
+  ]
+}

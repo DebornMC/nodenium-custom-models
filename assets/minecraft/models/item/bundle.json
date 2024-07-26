@@ -1,0 +1,19 @@
+{
+  "textures": {
+    "layer0": "item/bundle"
+  },
+  "parent": "item/generated",
+ 
+  "overrides": [
+    {"predicate": { "filled": 0.0000001 }, "model": "item/bundle_filled" },
+    {"predicate": {"custom_model_data":1}, "model": "item/custom/model/red_present"},
+    {"predicate": {"custom_model_data":2}, "model": "item/custom/model/blue_present"},
+    {"predicate": {"custom_model_data":3}, "model": "item/custom/model/yellow_present"},
+    {"predicate": {"custom_model_data":4}, "model": "item/custom/model/green_present"},
+    {"predicate": {"custom_model_data":5}, "model": "item/custom/model/easter_basket"},
+    {"predicate": {"custom_model_data":5, "filled": 0.0000001 }, "model": "item/custom/model/easter_basket_filled1"},
+    {"predicate": {"custom_model_data":5, "filled": 0.5 }, "model": "item/custom/model/easter_basket_filled2"},
+    {"predicate": {"custom_model_data":5, "filled": 1 }, "model": "item/custom/model/easter_basket_filled3"}
+
+  ]
+}

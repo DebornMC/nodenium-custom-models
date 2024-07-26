@@ -1,0 +1,18 @@
+{
+ "parent": "item/generated",
+ "textures": {
+  "layer0": "item/iron_nugget"
+ },
+ 
+ "overrides": [
+  {"predicate": {"custom_model_data":1}, "model": "item/custom/model/fish_skeleton"},
+  {"predicate": {"custom_model_data":2}, "model": "item/custom/model/swordfish"},
+  {"predicate": {"custom_model_data":3}, "model": "item/custom/model/skull_ornament"},
+  {"predicate": {"custom_model_data":4}, "model": "item/custom/model/easter_egg_model"},
+  {"predicate": {"custom_model_data":5}, "model": "item/custom/model/golden_easter_egg_model"},
+  {"predicate": {"custom_model_data":6}, "model": "item/custom/golden_easter_egg"},
+  {"predicate": {"custom_model_data":7}, "model": "item/custom/model/laptop"},
+  {"predicate": {"custom_model_data":8}, "model": "item/custom/model/cow_skull"},
+  {"predicate": {"custom_model_data":9}, "model": "item/custom/model/cow_skull_small"}
+ ]
+}
