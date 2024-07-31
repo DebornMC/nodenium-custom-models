@@ -71,7 +71,7 @@
         
         {"predicate": {"custom_model_data":502}, "model": "item/custom/model/mace_trophy"},
         {"predicate": {"custom_model_data":503}, "model": "item/custom/model/survivor_trophy"},
-        {"predicate": {"custom_model_data":504}, "model": "item/custom/model/portl_trophy"},
+        {"predicate": {"custom_model_data":504}, "model": "item/custom/model/portal_trophy"},
         {"predicate": {"custom_model_data":505}, "model": "item/custom/model/trophtree"},
         {"predicate": {"custom_model_data":506}, "model": "item/custom/model/bubblegum_trophy"},
         {"predicate": {"custom_model_data":507}, "model": "item/custom/model/easter_trophy"},
