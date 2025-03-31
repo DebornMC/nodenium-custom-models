@@ -8,6 +8,7 @@ jobs:
     - name: Archive Release
       uses: thedoctor0/zip-release@0.7.5
       with:
+        directory: .
         type: 'zip'
         filename: 'nodenium_custom_models_s13.zip'
         exclusions: '*.git* /*node_modules/* .editorconfig'
