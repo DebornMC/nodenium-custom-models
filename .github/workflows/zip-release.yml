@@ -20,12 +20,13 @@ jobs:
       - name: Zip Release
         uses: TheDoctor0/zip-release@0.7.6
         with:
-          filename: nodenium_custom_models_s13.zip 
+          filename: nodenium_custom_models_s13.zip
           path: . 
           exclusions: "*.git* /*node_modules/*" 
 
-      - name: Upload Zip Archive
-        uses: actions/upload-artifact@v4
+      - name: Upload to GitHub Releases
+        uses: softprops/action-gh-release@v2
         with:
-          name: release-archive
-          path: nodenium_custom_models_s13.zip 
+          files: nodenium_custom_models_s13.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
