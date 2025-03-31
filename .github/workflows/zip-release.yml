@@ -1,21 +1,13 @@
-- name: Zip Release
-  # You may pin to the exact commit or the version.
-  # uses: TheDoctor0/zip-release@b57d897cb5d60cb78b51a507f63fa184cfe35554
-  uses: TheDoctor0/zip-release@0.7.6
-  with:
-    # Filename for archive
-    filename: release.zip  # Set a valid value
-    # Base path for archive files
-    path: .  # Set a valid value
-    # Working directory before zipping
-    directory: .  # Set a valid value
-    # List of excluded files / directories
-    exclusions: ""  # Set a valid value
-    # List of excluded files / directories with recursive wildcards (only applies on Windows with `zip` type)
-    recursive_exclusions: ""  # Set a valid value
-    # Provide any custom parameters to the zipping command
-    custom: ""  # Set a valid value
-    # Tool to use for archiving
-    type: zip  # Set a valid value
-    # An extra command that will run before zipping
-    command: ""  # Set a valid value
+name: Create Archive
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Archive Release
+      uses: thedoctor0/zip-release@0.7.5
+      with:
+        type: 'zip'
+        filename: 'nodenium_custom_models_s13.zip'
+        exclusions: '*.git* /*node_modules/* .editorconfig'
