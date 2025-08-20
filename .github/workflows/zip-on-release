@@ -1,0 +1,48 @@
+name: Zip season-13 branch on release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  zip-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout season-13 branch
+        uses: actions/checkout@v4
+        with:
+          ref: season-13
+          fetch-depth: 0
+
+      - name: Create zip of season-13 branch root
+        run: |
+          ZIP_NAME="season-13.zip"
+          git archive --format=zip --output="$ZIP_NAME" HEAD
+
+      # --- Upload as release asset ---
+      - name: Upload zip as release asset
+        uses: softprops/action-gh-release@v1
+        with:
+          files: season-13.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # --- Commit into dev branch ---
+      - name: Checkout dev branch
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+          fetch-depth: 0
+
+      - name: Commit and push zip to dev
+        run: |
+          ZIP_NAME="season-13.zip"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          cp ../season-13.zip .
+
+          git add "$ZIP_NAME"
+          git commit -m "Update $ZIP_NAME for release $GITHUB_REF_NAME" || echo "No changes to commit"
+          git push origin dev
