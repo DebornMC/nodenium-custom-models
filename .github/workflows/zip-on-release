@@ -30,18 +30,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # --- Commit into season-13 branch (latest-zip folder) ---
-      - name: Commit and push zip to latest-zip folder in season-13
+      # --- Commit into season-13 branch root ---
+      - name: Commit and push zip to root of season-13
         run: |
           ZIP_NAME="pack.zip"
-          DEST_DIR="latest-zip"
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          mkdir -p "$DEST_DIR"
-          mv "$ZIP_NAME" "$DEST_DIR/"
+          mv "$ZIP_NAME" ./
 
-          git add "$DEST_DIR/$ZIP_NAME"
-          git commit -m "Update $ZIP_NAME in $DEST_DIR for release $GITHUB_REF_NAME" || echo "No changes to commit"
+          git add "$ZIP_NAME"
+          git commit -m "Update $ZIP_NAME in root for release $GITHUB_REF_NAME" || echo "No changes to commit"
           git push origin season-13
