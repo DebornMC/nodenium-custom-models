@@ -1,5 +1,13 @@
 name: Zip pack folder on release
 
+permissions:
+  contents: write
+  packages: write
+  pull-requests: write
+  issues: write
+  actions: write
+  id-token: write
+  
 on:
   release:
     types: [published]
