@@ -1,0 +1,51 @@
+{
+	"format_version": "1.21.6",
+	"credit": "Made with Blockbench",
+	"texture_size": [32, 32],
+	"textures": {
+		"0": "nodenium:item/deked_out/overlay/rare",
+		"particle": "nodenium:item/deked_out/overlay/rare"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 8],
+			"to": [16, 16, 8],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 0, 7]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#0"},
+				"east": {"uv": [0, 0, 0, 8], "texture": "#0"},
+				"south": {"uv": [0, 8, 8, 16], "texture": "#0"},
+				"west": {"uv": [0, 0, 0, 8], "texture": "#0"},
+				"up": {"uv": [8, 0, 0, 0], "texture": "#0"},
+				"down": {"uv": [8, 0, 0, 0], "texture": "#0"}
+			}
+		}
+	],
+	"gui_light": "front",
+	"display": {
+		"thirdperson_righthand": {
+			"scale": [0, 0, 0]
+		},
+		"thirdperson_lefthand": {
+			"scale": [0, 0, 0]
+		},
+		"firstperson_righthand": {
+			"scale": [0, 0, 0]
+		},
+		"firstperson_lefthand": {
+			"scale": [0, 0, 0]
+		},
+		"ground": {
+			"scale": [0, 0, 0]
+		},
+		"gui": {
+			"rotation": [0, -180, 0]
+		},
+		"head": {
+			"scale": [0, 0, 0]
+		},
+		"fixed": {
+			"scale": [0, 0, 0]
+		}
+	}
+}

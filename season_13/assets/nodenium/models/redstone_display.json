@@ -1,0 +1,58 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"1": "nodenium:item/redstone_display",
+		"2": "nodenium:item/redstone_display_back"
+	},
+	"elements": [
+		{
+			"from": [-16, 0, 7],
+			"to": [32, 32, 8],
+			"light_emission": 15,
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0, 7]},
+			"faces": {
+				"north": {"uv": [0, 0, 12, 8], "texture": "#1"},
+				"east": {"uv": [15.66667, 0, 16, 16], "texture": "#2"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#2"},
+				"west": {"uv": [0, 0, 0.33333, 16], "texture": "#2"},
+				"up": {"uv": [0, 0, 16, 0.5], "texture": "#2"},
+				"down": {"uv": [0, 15.5, 16, 16], "texture": "#2"}
+			}
+		}
+	],
+	"gui_light": "front",
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [0, 180, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.28, 0.28, 0.28]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [0, 180, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.28, 0.28, 0.28]
+		},
+		"firstperson_righthand": {
+			"rotation": [-30, 100, 0],
+			"translation": [1.5, 0.5, 0],
+			"scale": [0.24, 0.24, 0.24]
+		},
+		"firstperson_lefthand": {
+			"rotation": [-30, 100, 0],
+			"translation": [1.5, 0.5, 0],
+			"scale": [0.24, 0.24, 0.24]
+		},
+		"ground": {
+			"translation": [0, 3, 0],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [30, 180, 0],
+			"translation": [0, -1.75, 0],
+			"scale": [0.285, 0.285, 0.285]
+		},
+		"fixed": {
+			"scale": [2, 2, 2]
+		}
+	}
+}

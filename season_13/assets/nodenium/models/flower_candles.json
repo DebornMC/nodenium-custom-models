@@ -1,0 +1,60 @@
+{
+	"credit": "Made with Blockbench",
+	"texture_size": [64, 64],
+	"textures": {
+		"1": "nodenium:item/flower_candles",
+		"2": "nodenium:item/painting_back",
+		"particle": "nodenium:item/flower_candles"
+	},
+	"elements": [
+		{
+			"from": [-4, 0, 7.5],
+			"to": [20, 32, 8],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 12, 16], "texture": "#1"},
+				"east": {"uv": [0, 0, 0.25, 16], "texture": "#2"},
+				"south": {"uv": [0, 0, 12, 16], "texture": "#2"},
+				"west": {"uv": [0, 0, 0.25, 16], "texture": "#2"},
+				"up": {"uv": [0, 0, 12, 0.25], "rotation": 180, "texture": "#2"},
+				"down": {"uv": [0, 0, 12, 0.25], "rotation": 180, "texture": "#2"}
+			}
+		}
+	],
+	"gui_light": "front",
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [0, 180, 0],
+			"translation": [0, 0.25, 0],
+			"scale": [0.28, 0.28, 0.28]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [0, 180, 0],
+			"translation": [0, 0.25, 0],
+			"scale": [0.28, 0.28, 0.28]
+		},
+		"firstperson_righthand": {
+			"rotation": [-30, 100, 0],
+			"translation": [1.5, 0.5, 0],
+			"scale": [0.24, 0.24, 0.24]
+		},
+		"firstperson_lefthand": {
+			"rotation": [-30, 100, 0],
+			"translation": [1.5, 0.5, 0],
+			"scale": [0.24, 0.24, 0.24]
+		},
+		"ground": {
+			"translation": [0, 3, 0],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [30, 180, 0],
+			"translation": [0, -3.5, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"fixed": {
+			"translation": [0, 16, 0],
+			"scale": [4, 4, 4]
+		}
+	}
+}
