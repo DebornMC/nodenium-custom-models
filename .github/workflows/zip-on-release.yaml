@@ -41,7 +41,7 @@ jobs:
       # --- Commit into season-13 branch root ---
       - name: Commit and push zip to root of season-13
         run: |
-          ZIP_NAME="pack.zip"
+          ZIP_NAME="Nodenium_Resources.zip"
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
