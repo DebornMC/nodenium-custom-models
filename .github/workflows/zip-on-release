@@ -1,4 +1,4 @@
-name: Zip season-13 branch on release
+name: Zip pack folder on release
 
 on:
   release:
@@ -15,34 +15,33 @@ jobs:
           ref: season-13
           fetch-depth: 0
 
-      - name: Create zip of season-13 branch root
+      - name: Create zip of pack folder contents
         run: |
-          ZIP_NAME="season-13.zip"
-          git archive --format=zip --output="$ZIP_NAME" HEAD
+          ZIP_NAME="pack.zip"
+          cd pack
+          zip -r "../$ZIP_NAME" .
+          cd ..
 
       # --- Upload as release asset ---
       - name: Upload zip as release asset
         uses: softprops/action-gh-release@v1
         with:
-          files: season-13.zip
+          files: pack.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # --- Commit into dev branch ---
-      - name: Checkout dev branch
-        uses: actions/checkout@v4
-        with:
-          ref: dev
-          fetch-depth: 0
-
-      - name: Commit and push zip to dev
+      # --- Commit into season-13 branch (latest-zip folder) ---
+      - name: Commit and push zip to latest-zip folder in season-13
         run: |
-          ZIP_NAME="season-13.zip"
+          ZIP_NAME="pack.zip"
+          DEST_DIR="latest-zip"
+
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          cp ../season-13.zip .
+          mkdir -p "$DEST_DIR"
+          mv "$ZIP_NAME" "$DEST_DIR/"
 
-          git add "$ZIP_NAME"
-          git commit -m "Update $ZIP_NAME for release $GITHUB_REF_NAME" || echo "No changes to commit"
-          git push origin dev
+          git add "$DEST_DIR/$ZIP_NAME"
+          git commit -m "Update $ZIP_NAME in $DEST_DIR for release $GITHUB_REF_NAME" || echo "No changes to commit"
+          git push origin season-13
