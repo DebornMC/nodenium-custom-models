@@ -1,5 +1,8 @@
 name: Auto release from pack.mcmeta
 
+permissions:
+  contents: write
+  
 on:
   push:
     paths:
