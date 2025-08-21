@@ -2,8 +2,6 @@ name: Auto release from pack.mcmeta
 
 on:
   push:
-    branches:
-      - season-13
     paths:
       - "pack/pack.mcmeta"
 
