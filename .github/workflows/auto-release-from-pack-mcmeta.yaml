@@ -1,0 +1,55 @@
+name: Auto release from pack.mcmeta
+
+on:
+  push:
+    branches:
+      - season-13
+    paths:
+      - "pack/pack.mcmeta"
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: season-13
+          fetch-depth: 0
+
+      - name: Extract version from pack.mcmeta
+        id: get_version
+        run: |
+          VERSION=$(jq -r '.pack.description' pack/pack.mcmeta | grep -o '\[v[0-9.]\+\]' | tr -d '[]')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted version: $VERSION"
+
+      - name: Create zip of pack contents
+        run: |
+          VERSION=${{ steps.get_version.outputs.version }}
+          ZIP_NAME="Nodenium_Resources-${VERSION}.zip"
+          cd pack
+          zip -r "../$ZIP_NAME" .
+          cd ..
+          # Copy a "latest" version for repo root
+          cp "$ZIP_NAME" "Nodenium_Resources.zip"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.get_version.outputs.version }}
+          name: Release ${{ steps.get_version.outputs.version }}
+          files: |
+            Nodenium_Resources-${{ steps.get_version.outputs.version }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+
+      - name: Commit and push latest zip to root of season-13
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add "Nodenium_Resources.zip"
+          git commit -m "Update latest Nodenium_Resources.zip for release ${{ steps.get_version.outputs.version }}" || echo "No changes to commit"
+          git push origin season-13
