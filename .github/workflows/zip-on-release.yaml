@@ -1,16 +1,11 @@
 name: Zip pack folder on release
 
-permissions:
-  contents: write
-  packages: write
-  pull-requests: write
-  issues: write
-  actions: write
-  id-token: write
-  
 on:
   release:
     types: [published]
+
+permissions:
+  contents: write
 
 jobs:
   zip-and-publish:
@@ -22,27 +17,31 @@ jobs:
         with:
           ref: season-13
           fetch-depth: 0
+
       - name: Create zip of pack folder contents
         run: |
           ZIP_NAME="Nodenium_Resources.zip"
           cd pack
           zip -r "../$ZIP_NAME" .
           cd ..
-      
+
+      # --- Upload as release asset (with version number) ---
       - name: Upload zip as release asset
         uses: softprops/action-gh-release@v1
         with:
           files: Nodenium_Resources.zip
+          name: Nodenium_Resources-${{ github.ref_name }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-      
+
+      # --- Commit into season-13 branch root (without version) ---
       - name: Commit and push zip to root of season-13
         run: |
           ZIP_NAME="Nodenium_Resources.zip"
-      
+
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-      
+
           git add "$ZIP_NAME"
-          git commit -m "Update $ZIP_NAME in root for release $GITHUB_REF_NAME" || echo "No changes to commit"
+          git commit -m "Update $ZIP_NAME for release $GITHUB_REF_NAME" || echo "No changes to commit"
           git push origin season-13
