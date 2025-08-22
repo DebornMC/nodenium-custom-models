@@ -38,13 +38,24 @@ jobs:
         id: changelog
         run: |
           NEW_TAG=${{ steps.tag.outputs.new_tag }}
-          # Get the previous tag *before* the new one
-          PREV_TAG=$(git describe --tags --abbrev=0 ${NEW_TAG}^ 2>/dev/null || echo "")
+          # Get all tags sorted by version/tag date
+          TAGS=($(git tag --sort=-creatordate))
+
+          PREV_TAG=""
+          for t in "${TAGS[@]}"; do
+            if [ "$t" = "$NEW_TAG" ]; then
+              continue
+            fi
+            PREV_TAG=$t
+            break
+          done
 
           if [ -n "$PREV_TAG" ]; then
-            CHANGELOG=$(git log $PREV_TAG..$NEW_TAG --pretty=format:"- %s")
+            echo "Comparing $PREV_TAG → $NEW_TAG"
+            CHANGELOG=$(git log $PREV_TAG..HEAD --pretty=format:"- %s")
           else
-            CHANGELOG=$(git log $NEW_TAG --pretty=format:"- %s")
+            echo "No previous tag found — using all history for $NEW_TAG"
+            CHANGELOG=$(git log --pretty=format:"- %s")
           fi
 
           echo "changelog<<EOF" >> $GITHUB_OUTPUT
