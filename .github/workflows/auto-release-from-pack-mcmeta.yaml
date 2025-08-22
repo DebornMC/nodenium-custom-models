@@ -33,6 +33,7 @@ jobs:
           git tag $VERSION
           git push origin $VERSION
           echo "new_tag=$VERSION" >> $GITHUB_OUTPUT
+
       - name: Generate changelog excluding version-only changes
         id: changelog
         run: |
@@ -58,19 +59,21 @@ jobs:
           CHANGELOG=""
 
           for c in $COMMITS; do
-            DIFF_FILES=$(git diff-tree --no-commit-id --name-only -r $c)
+            FILES_CHANGED=$(git diff-tree --no-commit-id --name-only -r $c)
 
-            if [ "$DIFF_FILES" = "pack/pack.mcmeta" ]; then
-              DIFF_CONTENT=$(git show $c -- pack/pack.mcmeta)
-              NON_VERSION_DIFF=$(echo "$DIFF_CONTENT" | grep -vE '"description": "\[v[0-9.]+\]"')
-              if [ -n "$NON_VERSION_DIFF" ]; then
-                MSG=$(git log -1 --pretty=format:"- %s" $c)
-                CHANGELOG+="$MSG"$'\n'
+            # Only skip if the commit only changes pack.mcmeta
+            if [ "$FILES_CHANGED" = "pack/pack.mcmeta" ]; then
+              OLD_VERSION=$(git show $c^:pack/pack.mcmeta | jq -r '.pack.description' | grep -o '\[v[0-9.]\+\]')
+              NEW_VERSION=$(git show $c:pack/pack.mcmeta | jq -r '.pack.description' | grep -o '\[v[0-9.]\+\]')
+              
+              if [ "$OLD_VERSION" != "" ] && [ "$OLD_VERSION" != "$NEW_VERSION" ]; then
+                # Only version changed → skip this commit
+                continue
               fi
-            else
-              MSG=$(git log -1 --pretty=format:"- %s" $c)
-              CHANGELOG+="$MSG"$'\n'
             fi
+
+            MSG=$(git log -1 --pretty=format:"- %s" $c)
+            CHANGELOG+="$MSG"$'\n'
           done
 
           if [ -z "$CHANGELOG" ]; then
@@ -80,7 +83,6 @@ jobs:
           echo "changelog<<EOF" >> $GITHUB_OUTPUT
           echo "$CHANGELOG" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
-
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
