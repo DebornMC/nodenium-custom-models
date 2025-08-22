@@ -26,12 +26,16 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Extracted version: $VERSION"
 
-      - name: Create and push tag
+      - name: Create and push tag if it doesn't exist
         id: tag
         run: |
           VERSION=${{ steps.get_version.outputs.version }}
-          git tag $VERSION
-          git push origin $VERSION
+          if git rev-parse "$VERSION" >/dev/null 2>&1; then
+            echo "Tag $VERSION already exists, skipping creation"
+          else
+            git tag "$VERSION"
+            git push origin "$VERSION"
+          fi
           echo "new_tag=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Generate changelog excluding version-only changes
