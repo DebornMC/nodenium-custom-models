@@ -250,7 +250,7 @@
 	},
 	"groups": [
 		{
-			"name": "group",
+			"name": "magnet",
 			"origin": [8, 8, 9],
 			"color": 0,
 			"children": [0, 1, 2]
