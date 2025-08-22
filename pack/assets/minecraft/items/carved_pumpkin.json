@@ -191,6 +191,20 @@
                 }
             },
             {
+                "threshold": 27,
+                "model": {
+                    "type": "model",
+                    "model": "nodenium:miku_hair"
+                }
+            },
+            {
+                "threshold": 28,
+                "model": {
+                    "type": "model",
+                    "model": "nodenium:teto_hair"
+                }
+            },
+            {
                 "threshold": 100,
                 "model": {
                     "type": "model",
@@ -199,4 +213,5 @@
             }
         ]
     }
+
 }
