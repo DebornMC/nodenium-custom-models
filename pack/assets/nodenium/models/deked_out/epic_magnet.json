@@ -50,6 +50,7 @@
 		{
 			"from": [9.5, 3.501, 3.5],
 			"to": [9.5, 6.501, 9.5],
+			"light_emission": 5,
 			"rotation": {"angle": 0, "axis": "y", "origin": [10.5, 1.501, 10.5]},
 			"faces": {
 				"north": {"uv": [0, 0, 0, 1.5], "texture": "#1"},
@@ -62,6 +63,7 @@
 		{
 			"from": [6.5, 12.501, 3.5],
 			"to": [9.5, 12.501, 12.5],
+			"light_emission": 5,
 			"rotation": {"angle": 0, "axis": "y", "origin": [7.5, 10.501, 10.5]},
 			"faces": {
 				"north": {"uv": [0, 0, 1.5, 0], "texture": "#1"},
@@ -74,6 +76,7 @@
 		{
 			"from": [6.5, 3.501, 3.5],
 			"to": [9.5, 3.501, 12.5],
+			"light_emission": 5,
 			"rotation": {"angle": 0, "axis": "y", "origin": [7.5, 1.501, 10.5]},
 			"faces": {
 				"north": {"uv": [0, 0, 1.5, 0], "texture": "#1"},
@@ -87,6 +90,7 @@
 		{
 			"from": [6.5, 6.501, 3.5],
 			"to": [9.5, 6.501, 9.5],
+			"light_emission": 5,
 			"rotation": {"angle": 0, "axis": "y", "origin": [7.5, 4.501, 10.5]},
 			"faces": {
 				"north": {"uv": [0, 0, 1.5, 0], "texture": "#1"},
@@ -99,6 +103,7 @@
 		{
 			"from": [6.5, 9.501, 3.5],
 			"to": [9.5, 9.501, 9.5],
+			"light_emission": 5,
 			"rotation": {"angle": 0, "axis": "y", "origin": [7.5, 7.501, 10.5]},
 			"faces": {
 				"north": {"uv": [0, 0, 1.5, 0], "texture": "#1"},
@@ -111,6 +116,7 @@
 		{
 			"from": [6.5, 9.501, 3.5],
 			"to": [9.5, 12.501, 3.5],
+			"light_emission": 5,
 			"rotation": {"angle": 0, "axis": "y", "origin": [7.5, 7.501, 10.5]},
 			"faces": {
 				"east": {"uv": [0, 0, 0, 1.5], "texture": "#1"},
@@ -123,6 +129,7 @@
 		{
 			"from": [6.5, 3.501, 3.5],
 			"to": [9.5, 6.501, 3.5],
+			"light_emission": 5,
 			"rotation": {"angle": 0, "axis": "y", "origin": [7.5, 1.501, 10.5]},
 			"faces": {
 				"east": {"uv": [0, 0, 0, 1.5], "texture": "#1"},
@@ -135,6 +142,7 @@
 		{
 			"from": [6.5, 9.501, 3.5],
 			"to": [6.5, 12.501, 9.5],
+			"light_emission": 5,
 			"rotation": {"angle": 0, "axis": "y", "origin": [7.5, 7.501, 10.5]},
 			"faces": {
 				"north": {"uv": [0, 0, 0, 1.5], "texture": "#1"},
@@ -147,6 +155,7 @@
 		{
 			"from": [6.5, 3.501, 3.5],
 			"to": [6.5, 6.501, 9.5],
+			"light_emission": 5,
 			"rotation": {"angle": 0, "axis": "y", "origin": [7.5, 1.501, 10.5]},
 			"faces": {
 				"north": {"uv": [0, 0, 0, 1.5], "texture": "#1"},
@@ -159,6 +168,7 @@
 		{
 			"from": [6.5, 3.501, 9.5],
 			"to": [6.5, 12.501, 12.5],
+			"light_emission": 5,
 			"rotation": {"angle": 0, "axis": "y", "origin": [7.5, 1.501, 10.5]},
 			"faces": {
 				"north": {"uv": [0, 0, 0, 4.5], "texture": "#1"},
@@ -171,6 +181,7 @@
 		{
 			"from": [9.5, 3.501, 9.5],
 			"to": [9.5, 12.501, 12.5],
+			"light_emission": 5,
 			"rotation": {"angle": 0, "axis": "y", "origin": [10.5, 1.501, 10.5]},
 			"faces": {
 				"north": {"uv": [0, 0, 0, 4.5], "texture": "#1"},
@@ -183,6 +194,7 @@
 		{
 			"from": [6.5, 3.501, 12.5],
 			"to": [9.5, 12.501, 12.5],
+			"light_emission": 5,
 			"rotation": {"angle": 0, "axis": "y", "origin": [7.5, 1.501, 10.5]},
 			"faces": {
 				"north": {"uv": [3, 4.5, 4.5, 9], "texture": "#1"},
@@ -195,6 +207,7 @@
 		{
 			"from": [9.5, 9.501, 3.5],
 			"to": [9.5, 12.501, 9.5],
+			"light_emission": 5,
 			"rotation": {"angle": 0, "axis": "y", "origin": [10.5, 7.501, 10.5]},
 			"faces": {
 				"north": {"uv": [0, 0, 0, 1.5], "texture": "#1"},
@@ -236,11 +249,14 @@
 		}
 	},
 	"groups": [
-		0,
-		1,
-		2,
 		{
 			"name": "group",
+			"origin": [8, 8, 9],
+			"color": 0,
+			"children": [0, 1, 2]
+		},
+		{
+			"name": "glow",
 			"origin": [10.5, -0.499, 10.5],
 			"color": 0,
 			"children": [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
