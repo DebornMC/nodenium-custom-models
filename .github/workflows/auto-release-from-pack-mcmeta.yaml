@@ -33,7 +33,6 @@ jobs:
           git tag $VERSION
           git push origin $VERSION
           echo "new_tag=$VERSION" >> $GITHUB_OUTPUT
-
       - name: Generate changelog excluding version-only changes
         id: changelog
         run: |
@@ -59,11 +58,11 @@ jobs:
           CHANGELOG=""
 
           for c in $COMMITS; do
-            FILES_CHANGED=$(git diff-tree --no-commit-id --name-only -r $c)
-            
-            if echo "$FILES_CHANGED" | grep -q "pack/pack.mcmeta"; then
-              DIFF=$(git show $c -- pack/pack.mcmeta)
-              NON_VERSION_DIFF=$(echo "$DIFF" | grep -vE '"description": "\[v[0-9.]+\]"')
+            DIFF_FILES=$(git diff-tree --no-commit-id --name-only -r $c)
+
+            if [ "$DIFF_FILES" = "pack/pack.mcmeta" ]; then
+              DIFF_CONTENT=$(git show $c -- pack/pack.mcmeta)
+              NON_VERSION_DIFF=$(echo "$DIFF_CONTENT" | grep -vE '"description": "\[v[0-9.]+\]"')
               if [ -n "$NON_VERSION_DIFF" ]; then
                 MSG=$(git log -1 --pretty=format:"- %s" $c)
                 CHANGELOG+="$MSG"$'\n'
@@ -81,7 +80,6 @@ jobs:
           echo "changelog<<EOF" >> $GITHUB_OUTPUT
           echo "$CHANGELOG" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
-
 
 
       - name: Create GitHub Release
