@@ -38,7 +38,6 @@ jobs:
         id: changelog
         run: |
           NEW_TAG=${{ steps.tag.outputs.new_tag }}
-          # Find previous tag
           TAGS=($(git tag --sort=-creatordate))
           PREV_TAG=""
           for t in "${TAGS[@]}"; do
@@ -55,16 +54,17 @@ jobs:
             LOG_RANGE="HEAD"
           fi
 
-          # Get commits touching pack/
           COMMITS=$(git log $LOG_RANGE --pretty=format:"%H" -- pack/)
 
           CHANGELOG=""
 
           for c in $COMMITS; do
             FILES_CHANGED=$(git diff-tree --no-commit-id --name-only -r $c)
+            
             if echo "$FILES_CHANGED" | grep -q "pack/pack.mcmeta"; then
               DIFF=$(git show $c -- pack/pack.mcmeta)
-              if echo "$DIFF" | grep -vE '"description": "\[v[0-9.]+\]"' | grep -q .; then
+              NON_VERSION_DIFF=$(echo "$DIFF" | grep -vE '"description": "\[v[0-9.]+\]"')
+              if [ -n "$NON_VERSION_DIFF" ]; then
                 MSG=$(git log -1 --pretty=format:"- %s" $c)
                 CHANGELOG+="$MSG"$'\n'
               fi
@@ -81,6 +81,7 @@ jobs:
           echo "changelog<<EOF" >> $GITHUB_OUTPUT
           echo "$CHANGELOG" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
+
 
 
       - name: Create GitHub Release
