@@ -1,0 +1,106 @@
+name: Auto release from pack.mcmeta
+
+permissions:
+  contents: write
+  
+on:
+  push:
+    paths:
+      - "pack/pack.mcmeta"
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout current branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Extract version from pack.mcmeta
+        id: get_version
+        run: |
+          VERSION=$(jq -r '.pack.description' pack/pack.mcmeta | grep -o '\[v[0-9.]\+\]' | tr -d '[]')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted version: $VERSION"
+
+      - name: Create and push tag
+        id: tag
+        run: |
+          VERSION=${{ steps.get_version.outputs.version }}
+          git tag $VERSION
+          git push origin $VERSION
+          echo "new_tag=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Generate changelog excluding version-only changes
+        id: changelog
+        run: |
+          NEW_TAG=${{ steps.tag.outputs.new_tag }}
+          TAGS=($(git tag --sort=-creatordate))
+          PREV_TAG=""
+          for t in "${TAGS[@]}"; do
+            if [ "$t" = "$NEW_TAG" ]; then
+              continue
+            fi
+            PREV_TAG=$t
+            break
+          done
+
+          if [ -n "$PREV_TAG" ]; then
+            LOG_RANGE="$PREV_TAG..HEAD"
+          else
+            LOG_RANGE="HEAD"
+          fi
+
+          COMMITS=$(git log $LOG_RANGE --pretty=format:"%H" -- pack/)
+
+          CHANGELOG=""
+
+          for c in $COMMITS; do
+            FILES_CHANGED=$(git diff-tree --no-commit-id --name-only -r $c)
+
+            # Only skip if the commit only changes pack.mcmeta
+            if [ "$FILES_CHANGED" = "pack/pack.mcmeta" ]; then
+              OLD_VERSION=$(git show $c^:pack/pack.mcmeta | jq -r '.pack.description' | grep -o '\[v[0-9.]\+\]')
+              NEW_VERSION=$(git show $c:pack/pack.mcmeta | jq -r '.pack.description' | grep -o '\[v[0-9.]\+\]')
+              
+              if [ "$OLD_VERSION" != "" ] && [ "$OLD_VERSION" != "$NEW_VERSION" ]; then
+                # Only version changed → skip this commit
+                continue
+              fi
+            fi
+
+            MSG=$(git log -1 --pretty=format:"- %s" $c)
+            CHANGELOG+="$MSG"$'\n'
+          done
+
+          if [ -z "$CHANGELOG" ]; then
+            CHANGELOG="(No user-facing changes)"
+          fi
+
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.tag.outputs.new_tag }}
+          name: Release ${{ steps.tag.outputs.new_tag }}
+          body: |
+            ## Changelog
+            ${{ steps.changelog.outputs.changelog }}
+          files: Nodenium_Resources-${{ steps.tag.outputs.new_tag }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit and push latest zip to root of branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add "Nodenium_Resources.zip"
+          git commit -m "Update Nodenium_Resources.zip for release ${{ steps.get_version.outputs.version }}" || echo "No changes to commit"
+          git push origin HEAD:${{ github.ref_name }}
