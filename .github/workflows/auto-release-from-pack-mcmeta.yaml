@@ -26,28 +26,25 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Extracted version: $VERSION"
 
-      - name: Create zip of pack contents
+      - name: Create and push tag
+        id: tag
         run: |
           VERSION=${{ steps.get_version.outputs.version }}
-          ZIP_NAME="Nodenium_Resources-${VERSION}.zip"
-          cd pack
-          zip -r "../$ZIP_NAME" .
-          cd ..
-          cp "$ZIP_NAME" "Nodenium_Resources.zip"
+          git tag $VERSION
+          git push origin $VERSION
+          echo "new_tag=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Generate changelog
         id: changelog
         run: |
-          VERSION=${{ steps.get_version.outputs.version }}
-          # Get the previous tag (if it exists)
-          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
-          
+          NEW_TAG=${{ steps.tag.outputs.new_tag }}
+          # Get the previous tag *before* the new one
+          PREV_TAG=$(git describe --tags --abbrev=0 ${NEW_TAG}^ 2>/dev/null || echo "")
+
           if [ -n "$PREV_TAG" ]; then
-            echo "Changes since $PREV_TAG:"
-            CHANGELOG=$(git log $PREV_TAG..HEAD --pretty=format:"- %s")
+            CHANGELOG=$(git log $PREV_TAG..$NEW_TAG --pretty=format:"- %s")
           else
-            echo "First release — showing all commits"
-            CHANGELOG=$(git log --pretty=format:"- %s")
+            CHANGELOG=$(git log $NEW_TAG --pretty=format:"- %s")
           fi
 
           echo "changelog<<EOF" >> $GITHUB_OUTPUT
@@ -57,15 +54,15 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.get_version.outputs.version }}
-          name: Release ${{ steps.get_version.outputs.version }}
+          tag_name: ${{ steps.tag.outputs.new_tag }}
+          name: Release ${{ steps.tag.outputs.new_tag }}
           body: |
             ## Changelog
             ${{ steps.changelog.outputs.changelog }}
 
             ---
             Automated build from pack.mcmeta
-          files: Nodenium_Resources-${{ steps.get_version.outputs.version }}.zip
+          files: Nodenium_Resources-${{ steps.tag.outputs.new_tag }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
