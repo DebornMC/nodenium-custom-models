@@ -63,7 +63,7 @@ jobs:
           for c in $COMMITS; do
             FILES_CHANGED=$(git diff-tree --no-commit-id --name-only -r $c)
             if echo "$FILES_CHANGED" | grep -q "pack/pack.mcmeta"; then
-              DIFF=$(git show $c --pack/pack.mcmeta)
+              DIFF=$(git show $c -- pack/pack.mcmeta)
               if echo "$DIFF" | grep -vE '"description": "\[v[0-9.]+\]"' | grep -q .; then
                 MSG=$(git log -1 --pretty=format:"- %s" $c)
                 CHANGELOG+="$MSG"$'\n'
