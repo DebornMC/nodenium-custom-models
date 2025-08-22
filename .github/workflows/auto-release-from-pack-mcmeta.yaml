@@ -35,14 +35,39 @@ jobs:
           cd ..
           cp "$ZIP_NAME" "Nodenium_Resources.zip"
 
+      - name: Generate changelog
+        id: changelog
+        run: |
+          VERSION=${{ steps.get_version.outputs.version }}
+          # Get the previous tag (if it exists)
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          
+          if [ -n "$PREV_TAG" ]; then
+            echo "Changes since $PREV_TAG:"
+            CHANGELOG=$(git log $PREV_TAG..HEAD --pretty=format:"- %s")
+          else
+            echo "First release — showing all commits"
+            CHANGELOG=$(git log --pretty=format:"- %s")
+          fi
+
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.get_version.outputs.version }}
           name: Release ${{ steps.get_version.outputs.version }}
+          body: |
+            ## Changelog
+            ${{ steps.changelog.outputs.changelog }}
+
+            ---
+            Automated build from pack.mcmeta
           files: Nodenium_Resources-${{ steps.get_version.outputs.version }}.zip
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Commit and push latest zip to root of branch
         run: |
@@ -50,5 +75,5 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           git add "Nodenium_Resources.zip"
-          git commit -m "Update latest Nodenium_Resources.zip for release ${{ steps.get_version.outputs.version }}" || echo "No changes to commit"
+          git commit -m "Update Nodenium_Resources.zip for release ${{ steps.get_version.outputs.version }}" || echo "No changes to commit"
           git push origin HEAD:${{ github.ref_name }}
