@@ -3,7 +3,7 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [64, 32],
 	"textures": {
-		"0": "kindabland:item/hats/hunterscap_kb"
+		"0": "kindabland:item/hats/hunters_cap"
 	},
 	"elements": [
 		{
