@@ -3,8 +3,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "illyayarr:item/hats/scifi_helmet",
-		"particle": "illyayarr:item/hats/scifi_helmet"
+		"0": "illyayarr:item/hats/scifi_helmet_texture",
+		"particle": "illyayarr:item/hats/scifi_helmet_texture"
 	},
 	"elements": [
 		{
