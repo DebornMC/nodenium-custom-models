@@ -8,21 +8,6 @@
 	},
 	"elements": [
 		{
-			"name": "head size",
-			"from": [4, 0, 4],
-			"to": [12, 8, 12],
-			"rotation": {"angle": 0, "axis": "y", "origin": [4, 0, 4]},
-			"color": 1,
-			"faces": {
-				"north": {"uv": [2, 1.5, 4, 3.5], "texture": "#missing"},
-				"east": {"uv": [0.75, 1.5, 2.75, 3.5], "texture": "#missing"},
-				"south": {"uv": [0, 1.5, 2, 3.5], "texture": "#missing"},
-				"west": {"uv": [1.25, 1.5, 3.25, 3.5], "texture": "#missing"},
-				"up": {"uv": [0, 1.25, 2, 3.25], "texture": "#missing"},
-				"down": {"uv": [0, 0.75, 2, 2.75], "texture": "#missing"}
-			}
-		},
-		{
 			"name": "Visor",
 			"from": [3.5, 0.6, 2.975],
 			"to": [12.5, 8.8, 13.3],
